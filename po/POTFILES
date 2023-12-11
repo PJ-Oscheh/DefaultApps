@@ -1,0 +1,6 @@
+data/io.github.pjoscheh.DefaultApps.desktop.in
+data/io.github.pjoscheh.DefaultApps.metainfo.xml.in
+data/io.github.pjoscheh.DefaultApps.gschema.xml
+src/main.vala
+src/window.vala
+src/window.ui

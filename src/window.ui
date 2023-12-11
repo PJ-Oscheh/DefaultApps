@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DefaultappsWindow" parent="AdwApplicationWindow">
+    <property name="width-request">600</property>
+    <property name="height-request">400</property>
+    <child>
+      <object class="GtkBox" id="hbBox">
+        <property name="orientation">1</property>
+        <child>
+          <object class="AdwHeaderBar" id="hb">
+            <property name="title-widget">
+              <object class="AdwWindowTitle" id="hbTitle">
+                <property name="title">Default Apps</property>
+              </object>
+            </property>
+            <child>
+              <object class="GtkButton" id="btnCreate">
+                <property name="icon-name">list-add-symbolic</property>
+                <signal name="clicked" handler="testButton"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="contentBox">
+            <property name="orientation">1</property>
+            <child>
+              <object class="GtkLabel" id="lblMyApps">
+                <property name="halign">1</property>
+                <property name="label">My Apps</property>
+                <property name="margin-start">12</property>
+                <property name="margin-top">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBox" id="lsBoxApps">
+                <property name="margin-start">12</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-end">12</property>
+                <property name="selection-mode">0</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="AdwStatusPage" id="sp">
+                <property name="title">No protocols</property>
+                <property name="description">Use + to add a protocol</property>
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

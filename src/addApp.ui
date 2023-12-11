@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DefaultappsAddApp" parent="AdwApplicationWindow">
+    <property name="width-request">600</property>
+    <property name="deletable">false</property>
+    <property name="modal">true</property>
+    <child>
+      <object class="GtkBox" id="hbBox">
+        <property name="orientation">1</property>
+        <child>
+          <object class="AdwHeaderBar" id="hb">
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title">Add App</property>
+              </object>
+            </property>
+            <child type="end">
+              <object class="GtkButton" id="btnAdd">
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="label">Add</property>
+                <property name="halign">2</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <signal name="clicked" handler="btnAddCallback"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnCancel">
+                <property name="label">Cancel</property>
+                <signal name="clicked" handler="btnCancelCallback"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="content">
+            <property name="orientation">1</property>
+            <child>
+              <object class="GtkListBox" id="lsBoxAppProps">
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="selection-mode">0</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+                <child>
+                  <object class="AdwActionRow" id="arDesktopEntry">
+                    <property name="title">Desktop Entry</property>
+                    <property name="subtitle">Use the folder icon to open a .desktop file.</property>
+                    <child type="suffix">
+                      <object class="GtkButton" id="btnOpen">
+                        <property name="vexpand">false</property>
+                        <property name="hexpand">false</property>
+                        <property name="valign">3</property>
+                        <property name="icon-name">document-open-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="erProtocolName">
+                    <property name="title">Protocol name</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="helpTitle">
+                <property name="label">Help!</property>
+                <property name="halign">1</property>
+                <property name="margin-start">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="margin-end">12</property>
+                <style>
+                  <class name="title-2"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="desktopExplain">
+                <property name="label">Desktop Entry</property>
+                <property name="halign">1</property>
+                <property name="margin-start">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-end">12</property>
+                <style>
+                  <class name="title-4"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="desktopExplainBody">
+                <property name="label">Your desktop entry is what's used to open your application in launchers like the Activities Overview. They can usually be found in:</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">0</property>
+                <property name="max-width-chars">1</property>
+                <property name="hexpand">true</property>
+                <property name="halign">1</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-bottom">6</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="desktopDirs">
+                <property name="use-markup">true</property>
+                <property name="label">&lt;span font-family="monospace"&gt;/usr/share/applications
+/usr/local/share/applications&lt;/span&gt;</property>
+                <property name="margin-bottom">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="protoExplain">
+                <property name="label">Protocol</property>
+                <property name="halign">1</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="margin-bottom">12</property>
+                <style>
+                  <class name="title-4"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="protoExplainBody">
+                <property name="use-markup">true</property>
+                <property name="label">The protocol handles opening the external application. In a web browser, opening something through a custom protocol might look something like &lt;span font-family="monospace"&gt;my-protocol://dataGoesHere&lt;/span&gt;. In this case, the protocol to use would be &lt;span font-family="monospace"&gt;my-protocol&lt;/span&gt;</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">0</property>
+                <property name="max-width-chars">1</property>
+                <property name="hexpand">true</property>
+                <property name="halign">1</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-bottom">24</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

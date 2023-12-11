@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="defaultapps">
+	<schema id="io.github.pjoscheh.DefaultApps" path="/io/github/pjoscheh/DefaultApps/">
+	</schema>
+</schemalist>

@@ -1,0 +1,54 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DefaultappsWindow : Adw.ApplicationWindow {
+  width-request: 600;
+  height-request: 400;
+
+  Box hbBox {
+    orientation: vertical;
+
+    Adw.HeaderBar hb {
+      title-widget:       Adw.WindowTitle hbTitle {
+        title: 'Default Apps';
+      }
+
+      ;
+
+      Button btnCreate {
+        icon-name: 'list-add-symbolic';
+        clicked => $testButton();
+      }
+    }
+
+    Box contentBox {
+      orientation: vertical;
+
+      Label lblMyApps {
+        halign: start;
+        label: 'My Apps';
+        margin-start: 12;
+        margin-top: 12;
+      }
+
+      ListBox lsBoxApps {
+        margin-start: 12;
+        margin-top: 12;
+        margin-bottom: 12;
+        margin-end: 12;
+        selection-mode: none;
+
+        styles [
+          "boxed-list",
+        ]
+      }
+
+      Adw.StatusPage sp {
+        title: 'No protocols';
+        description: 'Use + to add a protocol';
+        icon-name: 'list-add-symbolic';
+      }
+    }
+  }
+}
+

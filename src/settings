@@ -1,0 +1,12 @@
+[re/sonny/Workbench]
+show-console=true
+show-style=false
+user-interface-language='blueprint'
+edited=true
+show-code=false
+code-language=0
+preview-align=1
+safe-mode=false
+auto-preview=true
+show-preview=true
+show-ui=true
