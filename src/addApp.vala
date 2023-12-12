@@ -28,6 +28,9 @@ namespace Defaultapps {
         [GtkChild]
         private unowned Gtk.Button btnAdd;
 
+        [GtkChild]
+        private unowned Adw.EntryRow erProtocolName;
+
         private Gtk.ListBox lsBoxApps;
         private Adw.ActionRow ar;
         private WindowListener wl;
@@ -51,12 +54,20 @@ namespace Defaultapps {
         [GtkCallback]
         public void btnAddCallback(Gtk.Button source) {
             print("Add callback\n");
-            print ("TESTING FILE HANDLER! BRACE YOURSELVES!!\n");
-            FileHandler fh = new FileHandler();
-            fh.openDesktopEntry("/home/pj/org.musescore.MuseScore.desktop", "testProto");
+            handleBtnAdd();
             wl.invokeItemAdded();
             this.destroy();
         }
+
+        private void handleBtnAdd() {
+            FileHandler fh = new FileHandler();
+            string filePath = "/home/pj/org.musescore.MuseScore.desktop";
+            string protocol = erProtocolName.get_text();
+            fh.openDesktopEntry(filePath, protocol);
+            string name = fh.readValue(filePath, "Name");
+            ar.title = name;
+            ar.subtitle = protocol;
+            }
 
     }
 }

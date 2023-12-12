@@ -7,15 +7,14 @@ public class FileHandler : Object {
         if (result == false) {print("Failed to open file.\n"); }
         }
 
-    private bool openDesktopEntryHandler(string filePath, string protocol) {
-        // 1. Open the File
-        // 2. Read name and icon
-        // 3. Try to find MimeType=. If found, append mimetype + ;
-        // 3a. Not found? Append the whole pizza (MimeType=blahblahblah)
-        // 4. If opened from /usr/... , save to ~/.local/share/applications
-        // 4a. Append NoDisplay=true ^
-        // 4b. If opened from ~/.local/..., just save.
+    public string readValue(string filePath, string key) {
+        string text = readFile(filePath);
+        return readValueHandler(key, text);
+        }
 
+    private bool openDesktopEntryHandler(string filePath, string protocol) {
+        //TODO: Detect if read from /usr/..., and if so, save to ~/.local/...
+        // with NoDisplay=true
         string fileText = readFile(filePath);
         string newText = findAndAppend(fileText, makeProtocol(protocol));
         bool result = writeFile(filePath, newText.strip());
@@ -23,6 +22,7 @@ public class FileHandler : Object {
             print("There was an error writing the file\n");
             return false;
         }
+        //TODO: Add to ~/.local/share/applications/mimeapps.list
 
         return true;
     }
@@ -51,7 +51,6 @@ public class FileHandler : Object {
                 error ("Well this blows: %s", e.message);
                 }
 
-        return errReturn;
         }
 
     private bool writeFile(string filePath, string text) {
@@ -95,8 +94,6 @@ public class FileHandler : Object {
 
         switch(stratToUse) {
             case ADD_PROTOCOL: {
-                string line;
-                int start=0;
                 int mimeTypeStart=0;
                 // Find the MimeType= line and save offset to mimeTypeStart
                 mimeTypeStart = newText.index_of("MimeType=",0);
@@ -126,6 +123,18 @@ public class FileHandler : Object {
             default: return errReturn;
 
         }
-
     }
+
+    private string readValueHandler(string key, string text) {
+        int startPos = text.index_of(key+"=", 0);
+        int keyLen = key.length+1;
+
+        for (int i=startPos; i<text.length; i++) {
+            if (text[i] == '\n') {
+                return text.substring(startPos+keyLen, i-startPos-keyLen);
+                }
+            }
+        return errReturn;
+        }
+
 }
