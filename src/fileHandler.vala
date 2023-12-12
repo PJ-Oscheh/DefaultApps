@@ -3,11 +3,11 @@ public class FileHandler : Object {
     string errReturn = "THERE_WAS_AN_ERROR_OH_NO";
 
     public void openDesktopEntry(string filePath, string protocol) {
-        int result = openDesktopEntryHandler(filePath, protocol);
-        if (result != 0) {print("Failed to open file.\n"); }
+        bool result = openDesktopEntryHandler(filePath, protocol);
+        if (result == false) {print("Failed to open file.\n"); }
         }
 
-    private int openDesktopEntryHandler(string filePath, string protocol) {
+    private bool openDesktopEntryHandler(string filePath, string protocol) {
         // 1. Open the File
         // 2. Read name and icon
         // 3. Try to find MimeType=. If found, append mimetype + ;
@@ -18,13 +18,13 @@ public class FileHandler : Object {
 
         string fileText = readFile(filePath);
         string newText = findAndAppend(fileText, makeProtocol(protocol));
-        bool result = writeFile(filePath, newText);
+        bool result = writeFile(filePath, newText.strip());
         if (result == false) {
             print("There was an error writing the file\n");
-            return 1;
+            return false;
         }
 
-        return 0;
+        return true;
     }
 
     private string readFile(string filePath) {
@@ -95,7 +95,6 @@ public class FileHandler : Object {
 
         switch(stratToUse) {
             case ADD_PROTOCOL: {
-                print("Just adding protocol\n");
                 string line;
                 int start=0;
                 int mimeTypeStart=0;
@@ -120,7 +119,6 @@ public class FileHandler : Object {
                 }
 
             case ADD_MIME_AND_PROTOCOL: {
-                print("Adding MimeType tag and protocol\n");
                 newText = newText + @"\nMimeType=$protocol;";
                 return newText;
             }
