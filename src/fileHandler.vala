@@ -1,5 +1,7 @@
 public class FileHandler : Object {
 
+    string errReturn = "THERE_WAS_AN_ERROR_OH_NO";
+
     public void openDesktopEntry(string filePath, string protocol) {
         int result = openDesktopEntryHandler(filePath, protocol);
         if (result != 0) {print("Failed to open file.\n"); }
@@ -14,29 +16,95 @@ public class FileHandler : Object {
         // 4a. Append NoDisplay=true ^
         // 4b. If opened from ~/.local/..., just save.
 
-        // I should be selected from the file selector!
-        // Based on https://wiki.gnome.org/Projects/Vala/GIOSamples
-        var file = File.new_for_path(filePath);
-
-        // Check if file exists.
-        if (!file.query_exists()) {
-            stderr.printf("File %s doesn't exist.\n",file.get_path());
-            return 1;
-            }
-
-        // Let's try to read it!
-        try {
-            var dis = new DataInputStream(file.read());
-            string line;
-
-            while ((line = dis.read_line(null)) != null) {
-                print("%s\n", line);
-                }
-            }
-        catch (Error e) {
-            error ("Well this blows: %s", e.message);
-            }
-
+        string fileText = readFile(filePath);
+        string newText = findAndAppend(fileText, makeProtocol(protocol));
+        print(newText);
         return 0;
+    }
+
+    private string readFile(string filePath) {
+            string text = "";
+            // Based on https://wiki.gnome.org/Projects/Vala/GIOSamples
+            var file = File.new_for_path(filePath);
+
+            // Check if file exists.
+            if (!file.query_exists()) {
+                stderr.printf("File %s doesn't exist.\n",file.get_path());
+                }
+
+            // Let's try to read it!
+            try {
+                var dis = new DataInputStream(file.read());
+                string line;
+
+                while ((line = dis.read_line(null)) != null) {
+                    text = text + "\n" + line;
+                    }
+                return text;
+                }
+            catch (Error e) {
+                error ("Well this blows: %s", e.message);
+                }
+
+        return errReturn;
+        }
+
+    private string makeProtocol(string protocol) {
+        return "x-scheme-handler/"+protocol;
+        }
+
+    enum Strat {
+            ADD_PROTOCOL,
+            ADD_MIME_AND_PROTOCOL
+            }
+
+    private string findAndAppend(string text, string protocol) {
+        string newText = text;
+        Strat stratToUse;
+        // Is "MimeType=" already in the text?
+        if (text.contains("MimeType=") == true) {
+            stratToUse = Strat.ADD_PROTOCOL;
+            }
+        else {
+            stratToUse = Strat.ADD_MIME_AND_PROTOCOL;
+            }
+
+        switch(stratToUse) {
+            case ADD_PROTOCOL: {
+                print("Just adding protocol\n");
+                string line;
+                int start=0;
+                int mimeTypeStart=0;
+                // Find the MimeType= line and save offset to mimeTypeStart
+                mimeTypeStart = newText.index_of("MimeType=",0);
+
+                // Find end and tack on the new protocol
+                string half1 = "";
+                string half2 = "";
+                for (int i=mimeTypeStart;i<newText.length;i++) {
+                    if (newText[i] == '\n') {
+                        half1 = newText.substring(0, i);
+                        half2 = newText.substring(i, newText.length - i);
+                        break;
+                    }
+                }
+
+                half1 = half1+protocol+";";
+
+                newText = half1+half2;
+                return newText;
+                }
+
+            case ADD_MIME_AND_PROTOCOL: {
+                print("Adding MimeType tag and protocol\n");
+                newText = newText + @"\nMimeType=$protocol;";
+                return newText;
+            }
+
+            default: return errReturn;
+
+        }
+
+        return errReturn;
     }
 }

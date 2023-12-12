@@ -12,3 +12,8 @@ stuff. Figured I'd leave them here for future reference.
 # Setting transience:
 1. Call `<class>.set_transience_for` to set the transience
 2. Set property `modal` to true in the child window
+
+
+# Vala Stuff:
+1. Remember, Vala's your friend! There's a lot of built-in functions!
+    - For example, `string.indexof()` to find index of substring!
