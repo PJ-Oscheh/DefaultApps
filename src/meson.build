@@ -4,6 +4,7 @@ defaultapps_sources = [
   'window.vala',
   'addApp.vala',
   'windowListener.vala',
+  'fileHandler.vala',
 ]
 
 defaultapps_deps = [

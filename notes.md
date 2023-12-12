@@ -6,6 +6,7 @@ stuff. Figured I'd leave them here for future reference.
 1. Add UI file and vala code
 2. Add to `src/meson.build`
 
+(Follow those steps for other non-window classes, just no UI file)
 
 
 # Setting transience:

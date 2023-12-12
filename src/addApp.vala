@@ -51,6 +51,9 @@ namespace Defaultapps {
         [GtkCallback]
         public void btnAddCallback(Gtk.Button source) {
             print("Add callback\n");
+            print ("TESTING FILE HANDLER! BRACE YOURSELVES!!\n");
+            FileHandler fh = new FileHandler();
+            fh.openDesktopEntry("/home/pj/org.musescore.MuseScore.desktop", "testProto");
             wl.invokeItemAdded();
             this.destroy();
         }
