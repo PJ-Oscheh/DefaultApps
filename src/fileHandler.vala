@@ -18,7 +18,12 @@ public class FileHandler : Object {
 
         string fileText = readFile(filePath);
         string newText = findAndAppend(fileText, makeProtocol(protocol));
-        print(newText);
+        bool result = writeFile(filePath, newText);
+        if (result == false) {
+            print("There was an error writing the file\n");
+            return 1;
+        }
+
         return 0;
     }
 
@@ -47,6 +52,25 @@ public class FileHandler : Object {
                 }
 
         return errReturn;
+        }
+
+    private bool writeFile(string filePath, string text) {
+        try {
+            var file = File.new_for_path(filePath);
+            // Delete file if it's there
+            if (file.query_exists()) {
+                file.delete();
+                }
+
+            var dos = new DataOutputStream(file.create(FileCreateFlags.REPLACE_DESTINATION));
+            dos.put_string(text);
+            return true;
+            }
+        catch (Error e) {
+            stderr.printf("%s\n", e.message);
+            }
+
+        return false;
         }
 
     private string makeProtocol(string protocol) {
@@ -105,6 +129,5 @@ public class FileHandler : Object {
 
         }
 
-        return errReturn;
     }
 }
