@@ -4,6 +4,12 @@
   <template class="DefaultappsWindow" parent="AdwApplicationWindow">
     <property name="width-request">600</property>
     <property name="height-request">400</property>
+
+    <child>
+      <object class="GtkPopoverMenu" id="app_popover">
+        <property name="menu-model">app_menu</property>
+      </object>
+    </child>
     <child>
       <object class="GtkBox" id="hbBox">
         <property name="orientation">1</property>
@@ -14,10 +20,16 @@
                 <property name="title">Default Apps</property>
               </object>
             </property>
-            <child>
+            <child type="start">
               <object class="GtkButton" id="btnCreate">
                 <property name="icon-name">list-add-symbolic</property>
                 <signal name="clicked" handler="testButton"/>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkMenuButton" id="btnMenu">
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="menu-model">primary_menu</property>
               </object>
             </child>
           </object>
@@ -57,4 +69,24 @@
       </object>
     </child>
   </template>
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_About Default Apps</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="app_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Remove</attribute>
+        <attribute name="action">app.remove</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

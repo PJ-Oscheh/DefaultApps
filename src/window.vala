@@ -35,6 +35,17 @@ namespace Defaultapps {
         [GtkChild]
         private unowned Adw.StatusPage sp;
 
+        [GtkChild]
+        private unowned Gtk.MenuButton btnMenu;
+
+        [GtkChild]
+        private unowned Gtk.PopoverMenu app_popover;
+
+        private unowned GLib.MenuModel app_mm;
+
+        //[GtkChild]
+        //private unowned GLib.MenuModel primary_menu;
+
         WindowListener wl = new WindowListener();
 
         // Callbacks
@@ -43,12 +54,23 @@ namespace Defaultapps {
             handleTestButton(source);
         }
 
+        // Connected at runtime
+        public void arMenuButtonCallback(Gtk.MenuButton source) {
+            // Get the ActionRow
+            Adw.ActionRow usedAr = (Adw.ActionRow) source.get_parent()
+            .get_parent()
+            .get_parent();
+
+            print(@"arMenuButtonCallback called from $(usedAr.get_title())!");
+            }
+
         public Window (Gtk.Application app) {
             Object (application: app);
             initialize();
         }
 
         private void initialize() {
+            app_mm = app_popover.get_menu_model();
             wl.itemAdded.connect(this.itemAdded);
             checkEmptyContent();
         }
@@ -80,6 +102,15 @@ namespace Defaultapps {
         private Adw.ActionRow createActionRow() {
             Adw.ActionRow newActionRow = new Adw.ActionRow();
             newActionRow.title = "Waiting for app information...";
+            Gtk.MenuButton btnSuffix = new Gtk.MenuButton();
+            btnSuffix.icon_name = "view-more-symbolic";
+            btnSuffix.set_hexpand(false);
+            btnSuffix.set_vexpand(false);
+            btnSuffix.set_valign(Gtk.Align.CENTER);
+            btnSuffix.add_css_class("flat");
+            btnSuffix.set_menu_model(app_mm);
+            //btnSuffix.clicked.connect(this.arMenuButtonCallback);
+            newActionRow.add_suffix(btnSuffix);
             lsBoxApps.insert(newActionRow, 0);
             return newActionRow;
         }
